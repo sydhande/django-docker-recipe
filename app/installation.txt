@@ -1,0 +1,103 @@
+docker --version   # already running on ubuntu 20.04 with o/p as Docker version 20.10.8, build 3967b7d
+docker run hello-world  # shows o/p
+
+
+docker-compose  # not available or not found
+
+# install docker compose cli version 2.*
+
+    mkdir -p ~/.docker/cli-plugins/
+    curl -SL https://github.com/docker/compose/releases/download/v2.2.3/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
+
+    chmod +x ~/.docker/cli-plugins/docker-compose
+    sudo chown $USER /var/run/docker.sock
+    docker compose version  # Docker Compose version v2.2.3
+
+# go to directory to start new project 
+# on github create the new repository with readme and gitingnore for python
+# download/clone the repository with git clone ****
+# change to new project repository folder
+
+code .
+
+# write requirements.txt, Dockerfile, docker-compose.yml, .dockerignore files
+
+docker compose build
+docker compose  run  app django-admin startproject app .
+
+# Django app gets created
+
+# to check containers
+docker container ls -a
+
+# to remove stopped container
+docker compose rm
+
+# to stop  all container
+docker stop $(docker ps -a -q)
+
+# to remove  all container
+docker rm $(docker ps -a -q)
+
+# change settings.py file in the djnago project
+
+# include database as postgresql in dockerfile, requirements file and yml file and change settings.py
+
+#create django startapp recipe
+
+docker compose build
+docker compose run  app python manage.py startapp recipe
+docker compose rm app
+
+# add recipe in settings.py 
+
+# add model and admin 
+docker compose run  app python manage.py makemigrations
+docker compose rm app
+
+# add wait command for django project (receipe) to wait until postgres is ready
+# add management folder in recipe
+# add command folder and add wait_for_db.py file
+# add command: to docker-compose.yml files
+docker compose up
+
+#add dockerfile the static and media folders at /vol/web
+# add to yml file, map ./data/web to /vol/web
+# add /data to .gitingnore
+
+#in settings.py add static_URL and media_URL, media_ROOT
+
+# to Run docker compose if access denied
+chmod +x ~/.docker/cli-plugins/docker-compose
+sudo chown $USER /var/run/docker.sock
+
+docker compose ps
+
+# to remove containner app
+docker compose rm app
+
+# add  urls.py with media root
+
+docker compose run app python manage.py createsuperuser
+docker compose rm app
+
+# remove all images
+docker system prune -a
+docker image prune
+docker rmi <IMAGE ID>
+
+
+
+#check images
+docker images -a
+
+
+# to remove all docker volume
+docker volume rm $(docker volume ls -q)
+
+# to view docker volume
+docker volume ls
+
+#facing the PermissionError: [Errno 13] Permission denied: '/vol/web/media'  issue, here's the fix:-
+sudo chown -R sanjay:sanjay ./data
+chmod -R a+rwx ./data
