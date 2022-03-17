@@ -184,3 +184,19 @@ ssh <HOSTNAME>@<PUBLIC IP>
 # install docker-compose
 sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
+
+sudo systemctl enable docker.service
+sudo systemctl start docker.service
+
+# add user to docker group suppose user is ubuntu then
+sudo usermod -aG docker ubuntu   
+
+#disconncet and then connect to server again
+
+# go to project directory and add project to git
+
+git add .
+git commit -am "Final docker-django project"
+git push origin
+#passwors as token generated
+
