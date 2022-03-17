@@ -39,6 +39,21 @@ docker stop $(docker ps -a -q)
 # to remove  all container
 docker rm $(docker ps -a -q)
 
+#check images
+docker images -a
+
+# remove all images
+docker system prune -a
+docker image prune
+docker rmi <IMAGE ID>
+
+# to remove all docker volume
+docker volume rm $(docker volume ls -q)
+
+# to view docker volume
+docker volume ls
+
+
 # change settings.py file in the djnago project
 
 # include database as postgresql in dockerfile, requirements file and yml file and change settings.py
@@ -101,3 +116,71 @@ docker volume ls
 #facing the PermissionError: [Errno 13] Permission denied: '/vol/web/media'  issue, here's the fix:-
 sudo chown -R sanjay:sanjay ./data
 chmod -R a+rwx ./data
+
+docker compose up
+#check Media file getting uploaded corrcetly
+
+
+# add the project to git
+git add .
+git commit -am "Added Django Project"
+
+#Configure NGinx
+#create folder proxy and 
+#file uwsgi_params and
+#create default.conf.tpl
+#create run.sh
+#create Dockerfile for NGinx
+
+# craete script folder and file run.sh in root folder of app
+#add uWSGI to requirements.txt and linux headers to run uWSGI in dockerfile
+
+#add scripts to Dockerfile
+
+
+#add cmd to run the run.sh file in Dockerfile
+
+#set docker compose for Deployment in production
+#create file docker-compose-deploy.yml
+#make .env file
+# to test deployment on local machine
+
+docker compose -f docker-compose-deploy.yml down --volumes
+
+docker compose -f docker-compose-deploy.yml build
+
+#Give the excute permission to run.sh
+#installed docker-compose
+
+docker-compose -f docker-compose-deploy.yml build
+docker-compose -f docker-compose-deploy.yml up
+
+#Error run.sh no such file or directory
+# need to delete container and app image to remove command
+# permission to execue are given to run.sh
+# Dockerfile last command corrected as CMD ["run.sh"]
+
+# To conncet the  AMAZON Lightsail Cloud
+# on Local machine 
+ls -l ~/.ssh/id_*.pub
+# on such file
+ssh-keygen -t rsa -b 4096
+# Enter, Enter (No passphrase), Enter Then check as below
+ls -l ~/.ssh/id_*.pub
+
+# Go to LightSail account page
+# Download default ssh key
+# move it to .ssh/ directory
+chmod 400 LightsailDefaultKey<TAB> 
+
+ssh -i ~/.ssh/Lightsail<TAB>  <HOSTNAME>@<PUBLIC IP>
+
+#from local machine
+cat ~/.ssh/id_rsa.pub | ssh -i ~/.ssh/Lightsail<TAB>  <HOSTNAME>@<PUBLIC IP> 'cat>>.ssh/authorized_keys'
+ssh <HOSTNAME>@<PUBLIC IP>
+
+#check git on Lightsail
+# insatll docker as per docker page
+# install docker-compose
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
