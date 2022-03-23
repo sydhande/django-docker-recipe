@@ -106,6 +106,7 @@ docker rmi <IMAGE ID>
 #check images
 docker images -a
 
+docker-compose -f docker-compose-deploy.yml down --volumes
 
 # to remove all docker volume
 docker volume rm $(docker volume ls -q)
@@ -211,7 +212,6 @@ vi .env   change default and add IP address of server
 docker-compose -f docker-compose-deploy.yml up -d
 
 docker-compose -f docker-compose-deploy.yml build app
-docker-compose -f docker-compose-deploy.yml down --volumes
 
 docker-compose -f docker-compose-deploy.yml run --rm app sh -c "python manage.py createsuperuser"
 
