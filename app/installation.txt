@@ -200,3 +200,28 @@ git commit -am "Final docker-django project"
 git push origin
 #passwors as token generated
 
+# clone the repository on AWS 
+# if private repository  add deploy key to github by generating key on aws  server
+# clone repository by ssh url of github
+
+cp .env.sample .env
+vi .env   change default and add IP address of server
+
+#change default environment variables and save
+docker-compose -f docker-compose-deploy.yml up -d
+
+docker-compose -f docker-compose-deploy.yml build app
+docker-compose -f docker-compose-deploy.yml down --volumes
+
+docker-compose -f docker-compose-deploy.yml run --rm app sh -c "python manage.py createsuperuser"
+
+#after chages in program
+#push to git
+git pull origin
+docker-compose -f docker-compose-deploy.yml build app
+#after build to latest
+docker-compose -f docker-compose-deploy.yml up --no-deps -d app
+
+
+
+
